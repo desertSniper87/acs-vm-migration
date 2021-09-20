@@ -1,14 +1,6 @@
 package com.faker.exploratory.ACO;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -218,7 +210,7 @@ public class VMAllocationACO extends VmAllocationPolicyMigrationAbstract {
         int lenTuple = availableTuples.size();
         if (lenTuple < 1)
             return Optional.empty();
-        List<Triple<Host, Vm, Host>> tupleList = List.copyOf(availableTuples);
+        List<Triple<Host, Vm, Host>> tupleList = new ArrayList<>(availableTuples);
         int[] indices = new int[lenTuple];
         double[] probabs = new double[lenTuple];
         int maxIndex = -1;
@@ -270,7 +262,7 @@ public class VMAllocationACO extends VmAllocationPolicyMigrationAbstract {
 
     private void restoreVmMigratingOut() {
         for (Host host : this.getHostList()) {
-            Set<Vm> vms = Set.copyOf(host.getVmsMigratingOut());
+            Set<Vm> vms = new HashSet<>(host.getVmsMigratingOut());
             for (Vm vm : vms) {
                 host.removeVmMigratingOut(vm);
             }
@@ -424,7 +416,7 @@ public class VMAllocationACO extends VmAllocationPolicyMigrationAbstract {
 
     /**
      * Gets the total MIPS that is currently being used by all VMs inside the Host.
-     * 
+     *
      * @param host
      * @return
      */
